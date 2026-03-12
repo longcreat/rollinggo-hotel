@@ -6,6 +6,8 @@
 
 RollingGo Hotel 酒店搜索 MCP Server。通过标准的 Model Context Protocol (MCP) 协议为 AI 助手提供全球酒店搜索能力。
 
+除源码自部署方式外，也提供已发布的 `stdio` 包 `rollinggo-mcp`，可直接通过 `npx` 或 `uvx` 接入 MCP 客户端。
+
 ## 工具列表
 
 **search_hotels** - 查询全球酒店信息
@@ -80,8 +82,88 @@ RollingGo Hotel 酒店搜索 MCP Server。通过标准的 Model Context Protocol
 }
 ```
 
-## 配置方法
-目前仅支持`streamable-http` 传输
+## 已发布包使用方式
+
+如果你不想自部署当前仓库里的 HTTP 服务，而是希望直接在 MCP 客户端里使用已发布包，可使用 `rollinggo-mcp`。
+
+### 1. 通过 npx 使用
+
+- npm package: `rollinggo-mcp`
+- command: `rollinggo-mcp`
+
+直接运行：
+
+```bash
+npx -y rollinggo-mcp
+```
+
+PowerShell 示例：
+
+```powershell
+$env:ROLLINGGO_API_KEY="mcp_your_key"
+npx -y rollinggo-mcp
+```
+
+MCP 客户端配置示例：
+
+```json
+{
+  "mcpServers": {
+    "rollinggo-hotel": {
+      "command": "npx",
+      "args": ["-y", "rollinggo-mcp"],
+      "env": {
+        "ROLLINGGO_API_KEY": "mcp_your_key"
+      }
+    }
+  }
+}
+```
+
+### 2. 通过 uvx 使用
+
+- PyPI package: `rollinggo-mcp`
+- command: `rollinggo-mcp`
+
+直接运行：
+
+```bash
+uvx --from rollinggo-mcp rollinggo-mcp
+```
+
+PowerShell 示例：
+
+```powershell
+$env:ROLLINGGO_API_KEY="mcp_your_key"
+uvx --from rollinggo-mcp rollinggo-mcp
+```
+
+MCP 客户端配置示例：
+
+```json
+{
+  "mcpServers": {
+    "rollinggo-hotel": {
+      "command": "uvx",
+      "args": ["--from", "rollinggo-mcp", "rollinggo-mcp"],
+      "env": {
+        "ROLLINGGO_API_KEY": "mcp_your_key"
+      }
+    }
+  }
+}
+```
+
+### 3. stdio 包环境变量
+
+已发布的 `rollinggo-mcp` 包从环境变量读取 API Key：
+
+- 优先：`ROLLINGGO_API_KEY`
+- 兼容：`AIGOHOTEL_API_KEY`
+- 可选覆盖：`ROLLINGGO_BASE_URL`
+
+## 源码部署方式
+当前仓库源码项目仅支持 `streamable-http` 传输
 
 ### 1. 安装依赖
 
